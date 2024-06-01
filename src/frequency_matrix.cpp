@@ -1,5 +1,6 @@
 #include "frequency_matrix.h"
 #include <iostream>
+#include <random>
 
 FrequencyMatrix::FrequencyMatrix(const size_t order) : m_order(order), frequency_matrix({}) {}
 
@@ -16,6 +17,16 @@ void FrequencyMatrix::increment(const sequence& sequence, const size_t& next) {
             column->second += 1;
         }
     }
+}
+
+sequence FrequencyMatrix::get_random_sequence() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> rand(0, size() - 1);
+
+    auto start = begin();
+    start = std::next(start, rand(gen));
+    return start->first;
 }
 
 std::ostream& operator<<(std::ostream& os, const FrequencyMatrix& matrix) {

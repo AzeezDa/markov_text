@@ -6,11 +6,14 @@
 struct Chain {
     Chain(const size_t, std::istream&);
 
-    friend std::ostream& operator<<(std::ostream& os, const Chain& chain);
+    void generate(const size_t, std::ostream&);
+
+    friend std::ostream& operator<<(std::ostream&, const Chain&);
 
 private:
     FrequencyMatrix m_matrix;
     TokenMap m_map;
+    size_t m_order;
 };
 
-std::ostream& operator<<(std::ostream& os, const Chain& chain);
+std::ostream& operator<<(std::ostream&, const Chain&);

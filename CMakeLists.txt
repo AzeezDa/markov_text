@@ -6,6 +6,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 file(GLOB src "src/*.cpp")
 
-add_compile_options(-g)
+add_compile_options(-Wall -Wpedantic -Wextra)
 
 add_executable(main ${src})

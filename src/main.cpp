@@ -2,6 +2,6 @@
 #include "chain.h"
 
 int main() {
-    Chain c(4, std::cin);
-    std::cout << c;
+    Chain c(3, std::cin);
+    c.generate(1000, std::cout);
 }
