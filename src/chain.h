@@ -6,7 +6,7 @@
 struct Chain {
     Chain(const size_t, std::istream&);
 
-    void generate(const size_t, std::ostream&);
+    void generate(const size_t, std::ostream&) const;
 
     friend std::ostream& operator<<(std::ostream&, const Chain&);
 

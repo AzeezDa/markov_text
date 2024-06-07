@@ -38,7 +38,7 @@ Chain::Chain(const size_t order, std::istream& in) : m_matrix(order), m_order(or
     }
 }
 
-void Chain::generate(const size_t word_count, std::ostream& out) {
+void Chain::generate(const size_t word_count, std::ostream& out) const {
     std::random_device rd;
     std::mt19937 gen(rd());
 
@@ -55,7 +55,7 @@ void Chain::generate(const size_t word_count, std::ostream& out) {
     }
 
     for (size_t i = 0; i < word_count - m_order; ++i) {
-        const auto& nexts = m_matrix[sequence];
+        const auto& nexts = m_matrix.at(sequence);
 
         std::vector<double> weights;
         std::vector<size_t> map;

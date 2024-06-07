@@ -2,7 +2,7 @@
 #include <iostream>
 #include <random>
 
-FrequencyMatrix::FrequencyMatrix(const size_t order) : m_order(order), frequency_matrix({}) {}
+FrequencyMatrix::FrequencyMatrix(const size_t order) : frequency_matrix({}), m_order(order) {}
 
 void FrequencyMatrix::increment(const sequence& sequence, const size_t& next) {
     auto row_kvp = find(sequence);
@@ -19,7 +19,7 @@ void FrequencyMatrix::increment(const sequence& sequence, const size_t& next) {
     }
 }
 
-sequence FrequencyMatrix::get_random_sequence() {
+sequence FrequencyMatrix::get_random_sequence() const {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> rand(0, size() - 1);

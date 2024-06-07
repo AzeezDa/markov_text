@@ -23,9 +23,10 @@ struct FrequencyMatrix : private frequency_matrix {
     FrequencyMatrix(const size_t order);
 
     using frequency_matrix::operator[];
+    using frequency_matrix::at;
 
     void increment(const sequence& sequence, const size_t& next);
-    sequence get_random_sequence();
+    sequence get_random_sequence() const;
 
     friend std::ostream& operator<<(std::ostream& os, const FrequencyMatrix& matrix);
 
