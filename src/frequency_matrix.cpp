@@ -28,18 +28,3 @@ sequence FrequencyMatrix::get_random_sequence() const {
     start = std::next(start, rand(gen));
     return start->first;
 }
-
-std::ostream& operator<<(std::ostream& os, const FrequencyMatrix& matrix) {
-    for (const auto& [sequence, row] : matrix) {
-        os << '{' << sequence[0];
-        for (size_t i = 1; i < matrix.m_order; i++) {
-            os << ' ' << sequence[i];
-        }
-        os << '}';
-        for (const auto& [next, frequency] : row) {
-            os << " (" << next << ' ' << frequency << ')';
-        }
-        os << '\n';
-    }
-    return os;
-}

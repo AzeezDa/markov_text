@@ -19,6 +19,8 @@ struct std::hash<sequence> {
     }
 };
 
+struct ChainConstructor;
+
 struct FrequencyMatrix : private frequency_matrix {
     FrequencyMatrix(const size_t order);
 
@@ -28,10 +30,7 @@ struct FrequencyMatrix : private frequency_matrix {
     void increment(const sequence& sequence, const size_t& next);
     sequence get_random_sequence() const;
 
-    friend std::ostream& operator<<(std::ostream& os, const FrequencyMatrix& matrix);
-
+    friend void save_chain(const std::string&, const ChainConstructor&);
 private:
     const size_t m_order;
 };
-
-std::ostream& operator<<(std::ostream& os, const FrequencyMatrix& matrix);

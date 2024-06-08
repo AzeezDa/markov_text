@@ -1,7 +1,7 @@
 #include <cassert>
 #include <iostream>
 #include "argparse/argparse.hpp"
-#include "chain.h"
+#include "chain_constructor.h"
 
 constexpr void check(const bool& to_check, const std::string& error_message) {
     if (!to_check) {
@@ -17,13 +17,13 @@ int main(int argc, char* argv[]) {
                             "The chain is constructed by reading a text passed into stdin. "
                             "The generated text will be outputted into stdout. ");
 
-    program.add_argument("order")
-        .help("The order of the Markov Chain (i.e. the length of token sequences)")
-        .scan<'i', size_t>();
+    // program.add_argument("order")
+    //     .help("The order of the Markov Chain (i.e. the length of token sequences)")
+    //     .scan<'i', size_t>();
 
-    program.add_argument("output_size")
-        .help("The number of tokens generated")
-        .scan<'i', size_t>();
+    // program.add_argument("output_size")
+    //     .help("The number of tokens generated")
+    //     .scan<'i', size_t>();
 
     try {
         program.parse_args(argc, argv);
@@ -34,11 +34,12 @@ int main(int argc, char* argv[]) {
         std::exit(1);
     }
 
-    size_t order = program.get<size_t>("order");
-    size_t output_size = program.get<size_t>("output_size");
-    check(order > 0, "Order must be a positive integer");
-    check(output_size > 0, "Output size must be a positive integer");
+    // size_t order = program.get<size_t>("order");
+    // size_t output_size = program.get<size_t>("output_size");
+    // check(order > 0, "Order must be a positive integer");
+    // check(output_size > 0, "Output size must be a positive integer");
 
-    Chain chain(order, std::cin);
-    chain.generate(output_size, std::cout);
+    ChainConstructor chain(2, std::cin);
+    // chain.generate(output_size, std::cout);
+    save_chain("out", chain);
 }

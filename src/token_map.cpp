@@ -19,10 +19,3 @@ size_t TokenMap::try_insert(std::string&& token) {
 const std::string& TokenMap::get_token_at(size_t index) const {
     return m_inverse_map.at(index);
 }
-
-std::ostream& operator<<(std::ostream& os, const TokenMap& map) {
-    for (const auto& [key, value] : map) {
-        os << key << ':' << value << ' ';
-    }
-    return os;
-}
