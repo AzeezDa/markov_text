@@ -41,49 +41,6 @@ ChainConstructor::ChainConstructor(const size_t order, std::istream& in) : m_mat
     }
 }
 
-void ChainConstructor::generate(const size_t word_count, std::ostream& out) const {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-
-    sequence sequence = m_matrix.get_random_sequence();
-
-    out << m_map.get_token_at(sequence[0]);
-    for (size_t i = 1; i < m_order; ++i) {
-        const auto& next_token = m_map.get_token_at(sequence[i]);
-
-        if (!std::ispunct(next_token[0])) {
-            out << ' ';
-        }
-        out << next_token;
-    }
-
-    for (size_t i = 0; i < word_count - m_order; ++i) {
-        const auto& nexts = m_matrix.at(sequence);
-
-        std::vector<double> weights;
-        std::vector<size_t> map;
-
-        for (const auto& [next, weight] : nexts) {
-            weights.push_back(weight);
-            map.push_back(next);
-        }
-
-        std::discrete_distribution<size_t> distribution(weights.begin(), weights.end());
-        const size_t next = map[distribution(gen)];
-        const auto& next_token = m_map.get_token_at(next);
-
-        if (!std::ispunct(next_token[0])) {
-            out << ' ';
-        }
-        out << next_token;
-
-        for (size_t i = 0; i < m_order - 1; i++) {
-            sequence[i] = sequence[i + 1];
-        }
-        sequence[m_order - 1] = next;
-    }
-}
-
 void save_chain(const std::string& path, const ChainConstructor& chain) {
     std::ofstream token_index(path + ".tix", std::ios::binary);
     std::ofstream sequence_index(path + ".six", std::ios::binary);
@@ -100,8 +57,8 @@ void save_chain(const std::string& path, const ChainConstructor& chain) {
         sequences.push_back(&key);
     }
 
-    std::sort(sequences.begin(), sequences.end(), [](auto x, auto y) {
-        return (*x)[0] < (*y)[0];
+    std::sort(sequences.begin(), sequences.end(), [](auto x, auto y){
+       return (*x) < (*y);
     });
 
     size_t current_token_index = 0;
@@ -109,7 +66,7 @@ void save_chain(const std::string& path, const ChainConstructor& chain) {
     size_t sequence_byte_index = 0;
     size_t frequency_byte_index = 0;
 
-    binary_write(token_index, sequence_byte_index);
+    binary_write(token_index, sequence_byte_index / (8 * (chain.m_order + 1)));
     binary_write(token_index, map_byte_index);
 
     map_byte_index += binary_write(token_map, chain.m_map.m_inverse_map[current_token_index]);
@@ -118,7 +75,7 @@ void save_chain(const std::string& path, const ChainConstructor& chain) {
         const size_t first_in_sequence = (*sequence)[0];
         if (first_in_sequence != current_token_index) {
             current_token_index = first_in_sequence;
-            binary_write(token_index, sequence_byte_index);
+            binary_write(token_index, sequence_byte_index / (8 * (chain.m_order + 1)));
             binary_write(token_index, map_byte_index);
             map_byte_index += binary_write(token_map, chain.m_map.m_inverse_map[first_in_sequence]);
         }
@@ -136,4 +93,6 @@ void save_chain(const std::string& path, const ChainConstructor& chain) {
             frequency_byte_index += binary_write(frequency, token_frequency);
         }
     }
+    binary_write(token_index, sequence_byte_index / (8 * (chain.m_order + 1)));
+    binary_write(token_index, map_byte_index);
 }

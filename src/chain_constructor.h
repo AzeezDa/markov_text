@@ -6,8 +6,6 @@
 struct ChainConstructor {
     ChainConstructor(const size_t, std::istream&);
 
-    void generate(const size_t, std::ostream&) const;
-
     friend void save_chain(const std::string&, const ChainConstructor&);
 
 private:

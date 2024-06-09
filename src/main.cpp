@@ -2,6 +2,7 @@
 #include <iostream>
 #include "argparse/argparse.hpp"
 #include "chain_constructor.h"
+#include "text_generator.h"
 
 constexpr void check(const bool& to_check, const std::string& error_message) {
     if (!to_check) {
@@ -13,17 +14,30 @@ constexpr void check(const bool& to_check, const std::string& error_message) {
 
 int main(int argc, char* argv[]) {
     argparse::ArgumentParser program("markov_text", "0.0.1");
-    program.add_description("A text generator based on higher-order Markov chains. "
-                            "The chain is constructed by reading a text passed into stdin. "
-                            "The generated text will be outputted into stdout. ");
+    program.add_description(
+        "A text generator based on higher-order Markov chains. "
+        "The chain is constructed by reading a text passed into stdin. "
+        "The generated text will be outputted into stdout.");
 
-    // program.add_argument("order")
-    //     .help("The order of the Markov Chain (i.e. the length of token sequences)")
-    //     .scan<'i', size_t>();
+    program.add_argument("-c")
+        .help("Construct the chain using a given path to a text file");
 
-    // program.add_argument("output_size")
-    //     .help("The number of tokens generated")
-    //     .scan<'i', size_t>();
+    program.add_argument("-g")
+        .help("Generate text based on given chain file");
+
+    program.add_argument("-O")
+        .default_value<size_t>(3)
+        .scan<'i', size_t>()
+        .help("The order of the chain to be constructed");
+
+    program.add_argument("-o")
+        .default_value(std::string{"out"})
+        .help("The Name of the constructed chain files");
+
+    program.add_argument("-s")
+        .default_value<size_t>(100)
+        .scan<'i', size_t>()
+        .help("The number of tokens to generate");
 
     try {
         program.parse_args(argc, argv);
@@ -34,12 +48,27 @@ int main(int argc, char* argv[]) {
         std::exit(1);
     }
 
-    // size_t order = program.get<size_t>("order");
-    // size_t output_size = program.get<size_t>("output_size");
-    // check(order > 0, "Order must be a positive integer");
-    // check(output_size > 0, "Output size must be a positive integer");
+    if (program.is_used("-c")) {
+        const size_t order = program.get<size_t>("-O");
+        check(order > 0, "Order must be a positive integer");
 
-    ChainConstructor chain(2, std::cin);
-    // chain.generate(output_size, std::cout);
-    save_chain("out", chain);
+        const std::string input_file_path = program.get<std::string>("-c");
+        const std::string output_file_path = program.get<std::string>("-o");
+
+        std::ifstream input(input_file_path);
+
+        std::clog << "Constructing..." << std::endl;
+        const ChainConstructor chain(order, input);
+        std::clog << "Saving..." << std::endl;
+        save_chain(output_file_path, chain);
+        std::clog << "Done!" << std::endl;
+    }
+
+    if (program.is_used("-g")) {
+        const std::string chain_file_path = program.get<std::string>("-g");
+        const size_t token_count = program.get<size_t>("-s");
+
+        TextGenerator text_generator(chain_file_path);
+        text_generator.generate(token_count);
+    }
 }

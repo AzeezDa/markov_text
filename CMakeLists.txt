@@ -12,7 +12,14 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(argparse)
 
+set(release ${CMAKE_PROJECT_NAME})
+set(debug "${release}_dbg")
+
 file(GLOB src "src/*.cpp")
-add_compile_options(-Wall -Wpedantic -Wextra)
-add_executable(${CMAKE_PROJECT_NAME} ${src})
-target_link_libraries(${CMAKE_PROJECT_NAME} argparse)
+add_compile_options(-Wall -Wpedantic -Wextra -Werror)
+link_libraries(argparse)
+
+add_executable(${release} ${src})
+
+add_executable(${debug} ${src})
+target_compile_options(${debug} PUBLIC -g)

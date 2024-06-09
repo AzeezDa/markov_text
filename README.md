@@ -11,17 +11,23 @@
 ## Running (Linux-based only)
 Write `./build/markov_text -h` for help.
 
-An example usage is:
+An example usage is given below, where first the construction command is done:
 
 ```bash
-./build/markov_text 3 1000 < corpus > output
+./build/markov_text -c corpus -O 3 -o out
 ```
-which will generate `1000` tokens using a Markov chain of order `3` that is constructed based on the large text file, `corpus`. The generated text will be written to the `output` file.
+which will construct an order-`3` Markov chain based on the large text file `corpus` and save it as four files, starting with `out`.
 
+Then to generate text, run
+
+```bash
+./build/markov_text -g out -s 1000
+```
+which will generate `1000` tokens based on the chain that is stored in the files starting with `out`.
 
 ## Goals
 ### High Priority
-- [ ] Saving the constructed Markov chain as a file for faster reusage or training with more tokens
+- [x] Saving the constructed Markov chain as a file for faster reusage ~~or training with more tokens~~
 - [ ] Optimisation of the chain construction process
 
 ### Later
