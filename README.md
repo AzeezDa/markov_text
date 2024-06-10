@@ -24,12 +24,3 @@ Then to generate text, run
 ./build/markov_text -g out -s 1000
 ```
 which will generate `1000` tokens based on the chain that is stored in the files starting with `out`.
-
-## Goals
-### High Priority
-- [x] Saving the constructed Markov chain as a file for faster reusage ~~or training with more tokens~~
-- [ ] Optimisation of the chain construction process
-
-### Later
-- [ ] Support for other encodings other than ASCII
-- [ ] Prompts
