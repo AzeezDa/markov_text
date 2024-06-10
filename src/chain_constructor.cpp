@@ -26,15 +26,21 @@ ChainConstructor::ChainConstructor(const size_t order, std::istream& in) : m_mat
     while (!in.eof()) {
         in >> std::noskipws >> ch;
 
-        if (std::isalpha(ch)) {
+        const bool token_empty = current.empty();
+
+        if ((std::isspace(ch) || !std::isprint(ch)) && !token_empty) {
+            push();
+        } else if (std::isalnum(ch)) {
             current.push_back(ch);
-        } else {
+        } else if (!token_empty && std::isalnum(current.back())) {
+            current.push_back(ch);
+        } else if (std::ispunct(ch)) {
             if (!current.empty()) {
                 push();
             }
 
-            if (!std::isspace(ch)) {
-                current.push_back(ch);
+            current.push_back(ch);
+            if (ch != '$') {
                 push();
             }
         }
@@ -57,8 +63,8 @@ void save_chain(const std::string& path, const ChainConstructor& chain) {
         sequences.push_back(&key);
     }
 
-    std::sort(sequences.begin(), sequences.end(), [](auto x, auto y){
-       return (*x) < (*y);
+    std::sort(sequences.begin(), sequences.end(), [](auto x, auto y) {
+        return (*x) < (*y);
     });
 
     size_t current_token_index = 0;

@@ -33,6 +33,8 @@ void TextGenerator::generate(const size_t output_token_count) {
     const size_t random_sequence_index = std::uniform_int_distribution<size_t>(sequence_index_start, sequence_index_end - 1)(gen);
 
     sequence current_sequence;
+    
+    char previous = ' ';
 
     m_sequence_index.seekg(random_sequence_index * 8 * (m_order + 1));
     for (size_t i = 0; i < m_order; i++) {
@@ -46,11 +48,12 @@ void TextGenerator::generate(const size_t output_token_count) {
         std::string token;
         binary_read(m_token_map, token);
 
-        if (i > 0 && !std::ispunct(token[0])) {
+        if (i > 0 && (!std::ispunct(token[0]) || token[0] == '$' || token[0] == '(' || token[0] == '&') && previous != '(') {
             std::cout << ' ';
         }
 
         std::cout << token;
+        previous = token[0];
     }
 
     for (size_t i = 0; i < output_token_count - m_order; i++) {
@@ -112,11 +115,12 @@ void TextGenerator::generate(const size_t output_token_count) {
         std::string token;
         binary_read(m_token_map, token);
 
-        if (!std::ispunct(token[0])) {
+        if ((!std::ispunct(token[0]) || token[0] == '$' || token[0] == '(' || token[0] == '&') && previous != '(') {
             std::cout << ' ';
         }
 
         std::cout << token;
+        previous = token[0];
 
         for (size_t i = 0; i < m_order - 1; i++) {
             current_sequence[i] = current_sequence[i + 1];
