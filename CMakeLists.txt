@@ -20,6 +20,7 @@ add_compile_options(-Wall -Wpedantic -Wextra -Werror)
 link_libraries(argparse)
 
 add_executable(${release} ${src})
+target_compile_options(${release} PUBLIC -O3)
 
 add_executable(${debug} ${src})
 target_compile_options(${debug} PUBLIC -g)
