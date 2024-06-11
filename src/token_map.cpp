@@ -4,6 +4,9 @@
 TokenMap::TokenMap() : std::unordered_map<std::string, int>({}), m_current_index(0) {}
 
 size_t TokenMap::try_insert(std::string&& token) {
+    // Try to insert the new token into the token map, and return its token index.
+    // If the token already exists return the stored index immediately.
+
     if (find(token) != this->end()) {
         return (*this)[token];
     }
@@ -14,8 +17,4 @@ size_t TokenMap::try_insert(std::string&& token) {
     m_current_index += 1;
 
     return inserted_index;
-}
-
-const std::string& TokenMap::get_token_at(size_t index) const {
-    return m_inverse_map.at(index);
 }

@@ -13,11 +13,9 @@ constexpr void check(const bool& to_check, const std::string& error_message) {
 }
 
 int main(int argc, char* argv[]) {
+    // Set up argparse
     argparse::ArgumentParser program("markov_text", "0.0.1");
-    program.add_description(
-        "A text generator based on higher-order Markov chains. "
-        "The chain is constructed by reading a text passed into stdin. "
-        "The generated text will be outputted into stdout.");
+    program.add_description("A text generator based on higher-order Markov chains.");
 
     program.add_argument("-c")
         .help("Construct the chain using a given path to a text file");
@@ -48,6 +46,7 @@ int main(int argc, char* argv[]) {
         std::exit(1);
     }
 
+    // Construct the Chain
     if (program.is_used("-c")) {
         const size_t order = program.get<size_t>("-O");
         check(order > 0, "Order must be a positive integer");
@@ -64,6 +63,7 @@ int main(int argc, char* argv[]) {
         std::clog << "Done!" << std::endl;
     }
 
+    // Generate text... Yes it is possible to construct and generate in the same command
     if (program.is_used("-g")) {
         const std::string chain_file_path = program.get<std::string>("-g");
         const size_t token_count = program.get<size_t>("-s");

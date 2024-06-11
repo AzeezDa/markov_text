@@ -11,7 +11,6 @@ struct TokenMap : private std::unordered_map<std::string, int> {
     using std::unordered_map<std::string, int>::operator[];
 
     size_t try_insert(std::string&& token);
-    const std::string& get_token_at(size_t index) const;
 
     friend void save_chain(const std::string&, const ChainConstructor&);
 private:

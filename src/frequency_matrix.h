@@ -31,7 +31,6 @@ struct FrequencyMatrix : private frequency_matrix {
     using frequency_matrix::at;
 
     void increment(const sequence& sequence, const size_t& next);
-    sequence get_random_sequence() const;
 
     friend void save_chain(const std::string&, const ChainConstructor&);
 
