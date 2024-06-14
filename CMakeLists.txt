@@ -19,8 +19,8 @@ link_libraries(argparse)
 
 add_executable(${release} ${src})
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    message("GNU")
+message("${CMAKE_CXX_COMPILER_ID}")
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang") 
     set(debug "${release}_dbg")
     add_executable(${debug} ${src})
     add_compile_options(-Wall -Wpedantic -Wextra -Werror)

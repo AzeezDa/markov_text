@@ -1,7 +1,7 @@
 #include "token_map.hpp"
 #include <string>
 
-TokenMap::TokenMap() : std::unordered_map<std::string, int>({}), m_current_index(0) {}
+TokenMap::TokenMap() : m_current_index(0) {}
 
 std::size_t TokenMap::try_insert(std::string&& token) {
     // Try to insert the new token into the token map, and return its token index.

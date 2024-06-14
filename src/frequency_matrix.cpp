@@ -2,7 +2,7 @@
 #include <random>
 #include <string>
 
-FrequencyMatrix::FrequencyMatrix(const std::size_t order) : frequency_matrix({}), m_order(order) {}
+FrequencyMatrix::FrequencyMatrix(const std::size_t order) : m_order(order) {}
 
 void FrequencyMatrix::increment(const sequence& sequence, const std::size_t& next) {
     // Find row corresponding to sequence. If it does not exist, add it and
