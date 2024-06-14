@@ -55,7 +55,7 @@ void TextGenerator::generate(const std::size_t output_token_count) {
 
         // Printing out by following English rules for spacing before and after punctuations
         // It is not perfect but works good enough
-        if (i > 0 && (!std::ispunct(token[0]) || token[0] == '$' || token[0] == '(' || token[0] == '&') && previous != '(') {
+        if (i > 0 && ((std::ispunct(token[0]) == 0) || token[0] == '$' || token[0] == '(' || token[0] == '&') && previous != '(') {
             std::cout << ' ';
         }
 
@@ -135,7 +135,7 @@ void TextGenerator::generate(const std::size_t output_token_count) {
         binary_read(m_token_map, token);
 
         // Formatting based on punctuation
-        if ((!std::ispunct(token[0]) || token[0] == '$' || token[0] == '(' || token[0] == '&') && previous != '(') {
+        if (((std::ispunct(token[0]) == 0) || token[0] == '$' || token[0] == '(' || token[0] == '&') && previous != '(') {
             std::cout << ' ';
         }
 

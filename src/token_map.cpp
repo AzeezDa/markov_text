@@ -3,7 +3,7 @@
 
 TokenMap::TokenMap() : m_current_index(0) {}
 
-std::size_t TokenMap::try_insert(std::string&& token) {
+auto TokenMap::try_insert(std::string&& token) -> std::size_t {
     // Try to insert the new token into the token map, and return its token index.
     // If the token already exists return the stored index immediately.
 

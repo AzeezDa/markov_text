@@ -34,13 +34,13 @@ ChainConstructor::ChainConstructor(const std::size_t order, std::istream& in) : 
 
         const bool token_empty = current.empty();
 
-        if ((std::isspace(ch) || !std::isprint(ch)) && !token_empty) {
+        if (((std::isspace(ch) != 0) || (std::isprint(ch) == 0)) && !token_empty) {
             push();
-        } else if (std::isalnum(ch)) {
+        } else if (std::isalnum(ch) != 0) {
             current.push_back(ch);
-        } else if (!token_empty && std::isalnum(current.back())) {
+        } else if (!token_empty && (std::isalnum(current.back()) != 0)) {
             current.push_back(ch);
-        } else if (std::ispunct(ch)) {
+        } else if (std::ispunct(ch) != 0) {
             if (!current.empty()) {
                 push();
             }

@@ -12,7 +12,7 @@ constexpr void check(const bool& to_check, const std::string& error_message) {
     }
 }
 
-int main(int argc, char* argv[]) {
+auto main(int argc, char* argv[]) -> int {
     // Set up argparse
     argparse::ArgumentParser program("markov_text", "0.0.1");
     program.add_description("A text generator based on higher-order Markov chains.");
@@ -48,11 +48,11 @@ int main(int argc, char* argv[]) {
 
     // Construct the Chain
     if (program.is_used("-c")) {
-        const std::size_t order = program.get<std::size_t>("-O");
+        const auto order = program.get<std::size_t>("-O");
         check(order > 0, "Order must be a positive integer");
 
-        const std::string input_file_path = program.get<std::string>("-c");
-        const std::string output_file_path = program.get<std::string>("-o");
+        const auto input_file_path = program.get<std::string>("-c");
+        const auto output_file_path = program.get<std::string>("-o");
 
         std::ifstream input(input_file_path);
 
@@ -65,8 +65,8 @@ int main(int argc, char* argv[]) {
 
     // Generate text... Yes it is possible to construct and generate in the same command
     if (program.is_used("-g")) {
-        const std::string chain_file_path = program.get<std::string>("-g");
-        const std::size_t token_count = program.get<std::size_t>("-s");
+        const auto chain_file_path = program.get<std::string>("-g");
+        const auto token_count = program.get<std::size_t>("-s");
 
         TextGenerator text_generator(chain_file_path);
         text_generator.generate(token_count);
