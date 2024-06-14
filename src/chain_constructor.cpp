@@ -1,9 +1,10 @@
-#include "chain_constructor.h"
+#include "chain_constructor.hpp"
 #include <algorithm>
 #include <fstream>
-#include <iostream>
+#include <istream>
 #include <random>
-#include "util.h"
+#include <string>
+#include "binary_io.hpp"
 
 ChainConstructor::ChainConstructor(const size_t order, std::istream& in) : m_matrix(order), m_order(order) {
     std::vector<size_t> sequence(order, 0);

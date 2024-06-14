@@ -1,5 +1,5 @@
-#include "token_map.h"
-#include <iostream>
+#include "token_map.hpp"
+#include <string>
 
 TokenMap::TokenMap() : std::unordered_map<std::string, int>({}), m_current_index(0) {}
 

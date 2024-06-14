@@ -1,5 +1,7 @@
-#pragma once
+#ifndef H_FREQUENCY_MATRIX
+#define H_FREQUENCY_MATRIX
 
+#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -22,9 +24,10 @@ struct std::hash<sequence> {
     }
 };
 
-struct ChainConstructor;
+class ChainConstructor;
 
-struct FrequencyMatrix : private frequency_matrix {
+class FrequencyMatrix : frequency_matrix {
+public:
     FrequencyMatrix(const size_t order);
 
     using frequency_matrix::operator[];
@@ -37,3 +40,5 @@ struct FrequencyMatrix : private frequency_matrix {
 private:
     const size_t m_order;
 };
+
+#endif  // H_FREQUENCY_MATRIX

@@ -13,14 +13,17 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(argparse)
 
 set(release ${CMAKE_PROJECT_NAME})
-set(debug "${release}_dbg")
 
 file(GLOB src "src/*.cpp")
-add_compile_options(-Wall -Wpedantic -Wextra -Werror)
 link_libraries(argparse)
 
 add_executable(${release} ${src})
-target_compile_options(${release} PUBLIC -O3)
 
-add_executable(${debug} ${src})
-target_compile_options(${debug} PUBLIC -g)
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    message("GNU")
+    set(debug "${release}_dbg")
+    add_executable(${debug} ${src})
+    add_compile_options(-Wall -Wpedantic -Wextra -Werror)
+    target_compile_options(${release} PUBLIC -O3)
+    target_compile_options(${debug} PUBLIC -g)
+endif()

@@ -1,7 +1,8 @@
-#include "text_generator.h"
+#include "text_generator.hpp"
 #include <random>
-#include "frequency_matrix.h"
-#include "util.h"
+#include <string>
+#include "binary_io.hpp"
+#include "frequency_matrix.hpp"
 
 TextGenerator::TextGenerator(const std::string& path)
     : m_sequence_index(path + ".six", std::ios::binary),
@@ -35,7 +36,7 @@ void TextGenerator::generate(const size_t output_token_count) {
     const size_t random_sequence_index = std::uniform_int_distribution<size_t>(sequence_index_start, sequence_index_end - 1)(gen);
 
     sequence current_sequence;
-    
+
     char previous = ' ';
 
     // Write tokens in the random sequence

@@ -1,11 +1,14 @@
-#pragma once
+#ifndef H_TOKEN_MAP
+#define H_TOKEN_MAP
 
+#include <string>
 #include <unordered_map>
 #include <vector>
 
-struct ChainConstructor;
+class ChainConstructor;
 
-struct TokenMap : private std::unordered_map<std::string, int> {
+class TokenMap : std::unordered_map<std::string, int> {
+public:
     TokenMap();
 
     using std::unordered_map<std::string, int>::operator[];
@@ -13,7 +16,10 @@ struct TokenMap : private std::unordered_map<std::string, int> {
     size_t try_insert(std::string&& token);
 
     friend void save_chain(const std::string&, const ChainConstructor&);
+
 private:
     size_t m_current_index;
     std::vector<std::string> m_inverse_map;
 };
+
+#endif  // H_TOKEN_MAP

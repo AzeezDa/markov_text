@@ -1,8 +1,8 @@
 #include <cassert>
 #include <iostream>
 #include "argparse/argparse.hpp"
-#include "chain_constructor.h"
-#include "text_generator.h"
+#include "chain_constructor.hpp"
+#include "text_generator.hpp"
 
 constexpr void check(const bool& to_check, const std::string& error_message) {
     if (!to_check) {

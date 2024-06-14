@@ -1,4 +1,6 @@
-#pragma once
+#ifndef H_BINARY_IO
+#define H_BINARY_IO
+
 #include <iostream>
 #include <type_traits>
 
@@ -27,3 +29,5 @@ constexpr size_t binary_read(std::istream& in, T& value) {
         return sizeof(T);
     }
 }
+
+#endif // H_BINARY_IO

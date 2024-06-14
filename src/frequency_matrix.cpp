@@ -1,6 +1,6 @@
-#include "frequency_matrix.h"
-#include <iostream>
+#include "frequency_matrix.hpp"
 #include <random>
+#include <string>
 
 FrequencyMatrix::FrequencyMatrix(const size_t order) : frequency_matrix({}), m_order(order) {}
 
