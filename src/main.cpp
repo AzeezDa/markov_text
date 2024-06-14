@@ -24,8 +24,8 @@ int main(int argc, char* argv[]) {
         .help("Generate text based on given chain file");
 
     program.add_argument("-O")
-        .default_value<size_t>(3)
-        .scan<'i', size_t>()
+        .default_value<std::size_t>(3)
+        .scan<'i', std::size_t>()
         .help("The order of the chain to be constructed");
 
     program.add_argument("-o")
@@ -33,8 +33,8 @@ int main(int argc, char* argv[]) {
         .help("The Name of the constructed chain files");
 
     program.add_argument("-s")
-        .default_value<size_t>(100)
-        .scan<'i', size_t>()
+        .default_value<std::size_t>(100)
+        .scan<'i', std::size_t>()
         .help("The number of tokens to generate");
 
     try {
@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
 
     // Construct the Chain
     if (program.is_used("-c")) {
-        const size_t order = program.get<size_t>("-O");
+        const std::size_t order = program.get<std::size_t>("-O");
         check(order > 0, "Order must be a positive integer");
 
         const std::string input_file_path = program.get<std::string>("-c");
@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
     // Generate text... Yes it is possible to construct and generate in the same command
     if (program.is_used("-g")) {
         const std::string chain_file_path = program.get<std::string>("-g");
-        const size_t token_count = program.get<size_t>("-s");
+        const std::size_t token_count = program.get<std::size_t>("-s");
 
         TextGenerator text_generator(chain_file_path);
         text_generator.generate(token_count);

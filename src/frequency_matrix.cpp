@@ -2,9 +2,9 @@
 #include <random>
 #include <string>
 
-FrequencyMatrix::FrequencyMatrix(const size_t order) : frequency_matrix({}), m_order(order) {}
+FrequencyMatrix::FrequencyMatrix(const std::size_t order) : frequency_matrix({}), m_order(order) {}
 
-void FrequencyMatrix::increment(const sequence& sequence, const size_t& next) {
+void FrequencyMatrix::increment(const sequence& sequence, const std::size_t& next) {
     // Find row corresponding to sequence. If it does not exist, add it and
     // add an entry for the next token index with frequency set to 1. Otherwise,
     // increment (or add with 1) the frequency of the next token index in that row

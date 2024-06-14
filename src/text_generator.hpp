@@ -8,17 +8,17 @@
 class TextGenerator {
 public:
     TextGenerator(const std::string&);
-    void generate(const size_t);
+    void generate(const std::size_t);
 
 private:
     struct TokenBytePointer {
-        size_t sequence_index;
-        size_t map_index;
+        std::size_t sequence_index;
+        std::size_t map_index;
     };
     std::ifstream m_sequence_index;
     std::ifstream m_token_map;
     std::ifstream m_frequency;
-    size_t m_order;
+    std::size_t m_order;
     std::vector<TokenBytePointer> m_token_byte_pointers;
 };
 

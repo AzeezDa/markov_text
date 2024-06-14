@@ -6,17 +6,17 @@
 #include <string>
 #include "binary_io.hpp"
 
-ChainConstructor::ChainConstructor(const size_t order, std::istream& in) : m_matrix(order), m_order(order) {
-    std::vector<size_t> sequence(order, 0);
+ChainConstructor::ChainConstructor(const std::size_t order, std::istream& in) : m_matrix(order), m_order(order) {
+    std::vector<std::size_t> sequence(order, 0);
 
     std::string current;
 
     // Insert the token into the map and shift the sequence once to the left,
     // making the last element of the sequence be next token index
     auto push = [&]() {
-        const size_t next = m_map.try_insert(std::move(current));
+        const std::size_t next = m_map.try_insert(std::move(current));
         m_matrix.increment(sequence, next);
-        for (size_t i = 0; i < order - 1; i++) {
+        for (std::size_t i = 0; i < order - 1; i++) {
             sequence[i] = sequence[i + 1];
         }
 
@@ -89,10 +89,10 @@ void save_chain(const std::string& path, const ChainConstructor& chain) {
 
     // Byte pointers to file. When the return value of binary_write is added
     // to them then it means the pointer is moved forward
-    size_t current_token_index = 0;
-    size_t map_byte_index = 0;
-    size_t sequence_byte_index = 0;
-    size_t frequency_byte_index = 0;
+    std::size_t current_token_index = 0;
+    std::size_t map_byte_index = 0;
+    std::size_t sequence_byte_index = 0;
+    std::size_t frequency_byte_index = 0;
 
     // Here the sequence_byte_index is divided by 8*(order + 1) since every row in the .six file is the same size:
     // length of the sequence which is order + 1 for the byte pointer.
@@ -105,7 +105,7 @@ void save_chain(const std::string& path, const ChainConstructor& chain) {
 
     for (const auto& sequence : sequences) {
         // Switch to next token_index if the sequence has a different token index than the previous
-        const size_t first_in_sequence = (*sequence)[0];
+        const std::size_t first_in_sequence = (*sequence)[0];
         if (first_in_sequence != current_token_index) {
             current_token_index = first_in_sequence;
             binary_write(token_index, sequence_byte_index / (8 * (chain.m_order + 1)));

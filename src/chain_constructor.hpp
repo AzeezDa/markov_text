@@ -8,14 +8,14 @@
 
 class ChainConstructor {
 public:
-    ChainConstructor(const size_t, std::istream&);
+    ChainConstructor(const std::size_t, std::istream&);
 
     friend void save_chain(const std::string&, const ChainConstructor&);
 
 private:
     FrequencyMatrix m_matrix;
     TokenMap m_map;
-    size_t m_order;
+    std::size_t m_order;
 };
 
 void save_chain(const std::string&, const ChainConstructor&);

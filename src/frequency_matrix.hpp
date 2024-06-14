@@ -5,15 +5,15 @@
 #include <unordered_map>
 #include <vector>
 
-using sequence = std::vector<size_t>;
-using frequency_row = std::unordered_map<size_t, size_t>;
+using sequence = std::vector<std::size_t>;
+using frequency_row = std::unordered_map<std::size_t, std::size_t>;
 using frequency_matrix = std::unordered_map<sequence, frequency_row>;
 
 // Based on the answer by see in: https://stackoverflow.com/questions/20511347/a-good-hash-function-for-a-vector
 template <>
 struct std::hash<sequence> {
-    size_t operator()(const sequence& sequence) const noexcept {
-        size_t seed = sequence.size();
+    std::size_t operator()(const sequence& sequence) const noexcept {
+        std::size_t seed = sequence.size();
         for (auto n : sequence) {
             n = ((n >> 16) ^ n) * 0x45d9f3b;
             n = ((n >> 16) ^ n) * 0x45d9f3b;
@@ -28,17 +28,17 @@ class ChainConstructor;
 
 class FrequencyMatrix : frequency_matrix {
 public:
-    FrequencyMatrix(const size_t order);
+    FrequencyMatrix(const std::size_t order);
 
     using frequency_matrix::operator[];
     using frequency_matrix::at;
 
-    void increment(const sequence& sequence, const size_t& next);
+    void increment(const sequence& sequence, const std::size_t& next);
 
     friend void save_chain(const std::string&, const ChainConstructor&);
 
 private:
-    const size_t m_order;
+    const std::size_t m_order;
 };
 
 #endif  // H_FREQUENCY_MATRIX

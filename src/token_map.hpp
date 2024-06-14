@@ -13,12 +13,12 @@ public:
 
     using std::unordered_map<std::string, int>::operator[];
 
-    size_t try_insert(std::string&& token);
+    std::size_t try_insert(std::string&& token);
 
     friend void save_chain(const std::string&, const ChainConstructor&);
 
 private:
-    size_t m_current_index;
+    std::size_t m_current_index;
     std::vector<std::string> m_inverse_map;
 };
 
