@@ -1,4 +1,5 @@
 #include "text_generator.hpp"
+#include <iostream>
 #include <random>
 #include <string>
 #include "binary_io.hpp"
