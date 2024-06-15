@@ -1,8 +1,8 @@
 #ifndef H_FREQUENCY_MATRIX
 #define H_FREQUENCY_MATRIX
 
-#include <string>
 #include <unordered_map>
+#include <filesystem>
 #include <vector>
 
 using sequence = std::vector<std::size_t>;
@@ -35,7 +35,7 @@ public:
 
     void increment(const sequence& sequence, const std::size_t& next);
 
-    friend void save_chain(const std::string&, const ChainConstructor&);
+    friend void save_chain(const std::filesystem::path&, const ChainConstructor&);
 
 private:
     const std::size_t m_order;

@@ -4,6 +4,7 @@
 #include <istream>
 #include <random>
 #include <string>
+#include <filesystem>
 #include "binary_io.hpp"
 
 ChainConstructor::ChainConstructor(const std::size_t order, std::istream& in) : m_matrix(order), m_order(order) {
@@ -53,23 +54,23 @@ ChainConstructor::ChainConstructor(const std::size_t order, std::istream& in) : 
     }
 }
 
-void save_chain(const std::string& path, const ChainConstructor& chain) {
+void save_chain(const std::filesystem::path& path, const ChainConstructor& chain) {
     // Maps the first index in a sequence to the first occurrence of a sequence
     // in the .six file that starts with that index in lexicographical order.
     // It also maps that token into the .map file to get the token corresponding
     // to the that index
-    std::ofstream token_index(path + ".tix", std::ios::binary);
+    std::ofstream token_index(path.string() + ".tix", std::ios::binary);
 
     // Maps each sequence into the row of frequencies in the .frq file
-    std::ofstream sequence_index(path + ".six", std::ios::binary);
+    std::ofstream sequence_index(path.string() + ".six", std::ios::binary);
 
     // Contains the translations of indices to words
-    std::ofstream token_map(path + ".map", std::ios::binary);
+    std::ofstream token_map(path.string() + ".map", std::ios::binary);
 
     // Each row starts with a number of entries n in that row then followed by
     // n pairs of values, where the first is the token index and the second is
     // the frequency of that token index
-    std::ofstream frequency(path + ".frq", std::ios::binary);
+    std::ofstream frequency(path.string() + ".frq", std::ios::binary);
 
     binary_write(token_index, chain.m_order);
     binary_write(token_index, chain.m_map.m_current_index);

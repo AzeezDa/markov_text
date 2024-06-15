@@ -1,5 +1,6 @@
 #include <cassert>
 #include <iostream>
+#include <filesystem>
 #include "argparse/argparse.hpp"
 #include "chain_constructor.hpp"
 #include "text_generator.hpp"

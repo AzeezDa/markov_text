@@ -2,7 +2,7 @@
 #define H_CHAIN_CONSTRUCTOR
 
 #include <istream>
-#include <string>
+#include <filesystem>
 #include "frequency_matrix.hpp"
 #include "token_map.hpp"
 
@@ -10,7 +10,7 @@ class ChainConstructor {
 public:
     ChainConstructor(const std::size_t, std::istream&);
 
-    friend void save_chain(const std::string&, const ChainConstructor&);
+    friend void save_chain(const std::filesystem::path&, const ChainConstructor&);
 
 private:
     FrequencyMatrix m_matrix;
@@ -18,6 +18,6 @@ private:
     std::size_t m_order;
 };
 
-void save_chain(const std::string&, const ChainConstructor&);
+void save_chain(const std::filesystem::path&, const ChainConstructor&);
 
 #endif  // H_CHAIN_CONSTRUCTOR

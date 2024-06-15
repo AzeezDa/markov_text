@@ -2,12 +2,12 @@
 #define H_TEXT_GENERATOR
 
 #include <fstream>
-#include <string>
+#include <filesystem>
 #include <vector>
 
 class TextGenerator {
 public:
-    TextGenerator(const std::string&);
+    TextGenerator(const std::filesystem::path&);
     void generate(const std::size_t);
 
 private:

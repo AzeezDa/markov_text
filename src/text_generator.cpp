@@ -2,14 +2,15 @@
 #include <iostream>
 #include <random>
 #include <string>
+#include <filesystem>
 #include "binary_io.hpp"
 #include "frequency_matrix.hpp"
 
-TextGenerator::TextGenerator(const std::string& path)
-    : m_sequence_index(path + ".six", std::ios::binary),
-      m_token_map(path + ".map", std::ios::binary),
-      m_frequency(path + ".frq", std::ios::binary) {
-    std::ifstream token_index(path + ".tix", std::ios::binary);
+TextGenerator::TextGenerator(const std::filesystem::path& path)
+    : m_sequence_index(path.string() + ".six", std::ios::binary),
+      m_token_map(path.string() + ".map", std::ios::binary),
+      m_frequency(path.string() + ".frq", std::ios::binary) {
+    std::ifstream token_index(path.string() + ".tix", std::ios::binary);
 
     binary_read(token_index, m_order);
     std::size_t token_count;
