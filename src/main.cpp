@@ -4,6 +4,8 @@
 #include "argparse/argparse.hpp"
 #include "chain_constructor.hpp"
 #include "text_generator.hpp"
+#include "token.hpp"
+#include "token.hpp"
 
 constexpr void check(const bool& to_check, const std::string& error_message) {
     if (!to_check) {
@@ -58,7 +60,8 @@ auto main(int argc, char* argv[]) -> int {
         std::ifstream input(input_file_path);
 
         std::clog << "Constructing..." << std::endl;
-        const ChainConstructor chain(order, input);
+        ChainConstructor chain(order);
+        chain.construct<>(input);
         std::clog << "Saving..." << std::endl;
         save_chain(output_file_path, chain);
         std::clog << "Done!" << std::endl;
@@ -70,6 +73,6 @@ auto main(int argc, char* argv[]) -> int {
         const auto token_count = program.get<std::size_t>("-s");
 
         TextGenerator text_generator(chain_file_path);
-        text_generator.generate(token_count);
+        text_generator.generate<>(token_count);
     }
 }

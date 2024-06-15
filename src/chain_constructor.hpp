@@ -5,10 +5,14 @@
 #include <filesystem>
 #include "frequency_matrix.hpp"
 #include "token_map.hpp"
+#include "token.hpp"
 
 class ChainConstructor {
 public:
-    ChainConstructor(const std::size_t, std::istream&);
+    ChainConstructor(const std::size_t);
+
+    template <TokenizerLike tokenizer = ASCIITokenizer>
+    void construct(std::istream& in);
 
     friend void save_chain(const std::filesystem::path&, const ChainConstructor&);
 

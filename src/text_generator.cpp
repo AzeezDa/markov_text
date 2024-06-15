@@ -1,8 +1,8 @@
 #include "text_generator.hpp"
+#include <filesystem>
 #include <iostream>
 #include <random>
 #include <string>
-#include <filesystem>
 #include "binary_io.hpp"
 #include "frequency_matrix.hpp"
 
@@ -25,6 +25,7 @@ TextGenerator::TextGenerator(const std::filesystem::path& path)
     }
 }
 
+template <TokenPrinterLike print>
 void TextGenerator::generate(const std::size_t output_token_count) {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -54,13 +55,8 @@ void TextGenerator::generate(const std::size_t output_token_count) {
         std::string token;
         binary_read(m_token_map, token);
 
-        // Printing out by following English rules for spacing before and after punctuations
-        // It is not perfect but works good enough
-        if (i > 0 && ((std::ispunct(token[0]) == 0) || token[0] == '$' || token[0] == '(' || token[0] == '&') && previous != '(') {
-            std::cout << ' ';
-        }
+        print{}(std::cout, token, previous);
 
-        std::cout << token;
         previous = token[0];
     }
 
@@ -135,12 +131,8 @@ void TextGenerator::generate(const std::size_t output_token_count) {
         std::string token;
         binary_read(m_token_map, token);
 
-        // Formatting based on punctuation
-        if (((std::ispunct(token[0]) == 0) || token[0] == '$' || token[0] == '(' || token[0] == '&') && previous != '(') {
-            std::cout << ' ';
-        }
+        print{}(std::cout, token, previous);
 
-        std::cout << token;
         previous = token[0];
 
         // Shift the sequence to the left and add the next token index

@@ -4,11 +4,14 @@
 #include <fstream>
 #include <filesystem>
 #include <vector>
+#include "token.hpp"
 
 class TextGenerator {
 public:
-    TextGenerator(const std::filesystem::path&);
-    void generate(const std::size_t);
+    TextGenerator(const std::filesystem::path& path);
+
+    template <TokenPrinterLike print = ASCIITokenPrinter>
+    void generate(const std::size_t output_token_count);
 
 private:
     struct TokenBytePointer {

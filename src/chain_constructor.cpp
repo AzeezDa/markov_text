@@ -1,14 +1,18 @@
 #include "chain_constructor.hpp"
 #include <algorithm>
+#include <filesystem>
 #include <fstream>
 #include <istream>
 #include <random>
 #include <string>
-#include <filesystem>
 #include "binary_io.hpp"
+#include "token.hpp"
 
-ChainConstructor::ChainConstructor(const std::size_t order, std::istream& in) : m_matrix(order), m_order(order) {
-    std::vector<std::size_t> sequence(order, 0);
+ChainConstructor::ChainConstructor(const std::size_t order) : m_matrix(order), m_order(order) {}
+
+template <TokenizerLike tokenizer>
+void ChainConstructor::construct(std::istream& in) {
+    std::vector<std::size_t> sequence(m_order, 0);
 
     std::string current;
 
@@ -17,41 +21,14 @@ ChainConstructor::ChainConstructor(const std::size_t order, std::istream& in) : 
     auto push = [&]() {
         const std::size_t next = m_map.try_insert(std::move(current));
         m_matrix.increment(sequence, next);
-        for (std::size_t i = 0; i < order - 1; i++) {
-            sequence[i] = sequence[i + 1];
-        }
-
-        sequence[order - 1] = next;
+        
+        std::shift_left(sequence.begin(), sequence.end(), 1);
+        sequence.back() = next;
 
         current.clear();
     };
 
-    // Read char by char and tokenise according to some rules. I chose the once
-    // below just because they gave good enough (but not perfect) results for
-    // English texts
-    char ch;
-    while (!in.eof()) {
-        in >> std::noskipws >> ch;
-
-        const bool token_empty = current.empty();
-
-        if (((std::isspace(ch) != 0) || (std::isprint(ch) == 0)) && !token_empty) {
-            push();
-        } else if (std::isalnum(ch) != 0) {
-            current.push_back(ch);
-        } else if (!token_empty && (std::isalnum(current.back()) != 0)) {
-            current.push_back(ch);
-        } else if (std::ispunct(ch) != 0) {
-            if (!current.empty()) {
-                push();
-            }
-
-            current.push_back(ch);
-            if (ch != '$') {
-                push();
-            }
-        }
-    }
+    tokenizer{}(in, push);
 }
 
 void save_chain(const std::filesystem::path& path, const ChainConstructor& chain) {
