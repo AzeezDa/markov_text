@@ -10,26 +10,6 @@
 
 ChainConstructor::ChainConstructor(const std::size_t order) : m_matrix(order), m_order(order) {}
 
-template <TokenizerLike tokenizer>
-void ChainConstructor::construct(std::istream& in) {
-    std::vector<std::size_t> sequence(m_order, 0);
-
-    std::string current;
-
-    // Insert the token into the map and shift the sequence once to the left,
-    // making the last element of the sequence be next token index
-    auto push = [&]() {
-        const std::size_t next = m_map.try_insert(std::move(current));
-        m_matrix.increment(sequence, next);
-        
-        std::shift_left(sequence.begin(), sequence.end(), 1);
-        sequence.back() = next;
-
-        current.clear();
-    };
-
-    tokenizer{}(in, push);
-}
 
 void save_chain(const std::filesystem::path& path, const ChainConstructor& chain) {
     // Maps the first index in a sequence to the first occurrence of a sequence

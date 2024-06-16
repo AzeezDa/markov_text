@@ -1,8 +1,8 @@
 #ifndef H_FREQUENCY_MATRIX
 #define H_FREQUENCY_MATRIX
 
-#include <unordered_map>
 #include <filesystem>
+#include <unordered_map>
 #include <vector>
 
 using sequence = std::vector<std::size_t>;

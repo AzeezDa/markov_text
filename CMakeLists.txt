@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.12)
 project(markov_text)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -18,6 +18,7 @@ file(GLOB src "src/*.cpp")
 link_libraries(argparse)
 
 add_executable(${release} ${src})
+
 
 message("${CMAKE_CXX_COMPILER_ID}")
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang") 

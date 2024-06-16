@@ -1,10 +1,9 @@
 #include <cassert>
-#include <iostream>
 #include <filesystem>
+#include <iostream>
 #include "argparse/argparse.hpp"
 #include "chain_constructor.hpp"
 #include "text_generator.hpp"
-#include "token.hpp"
 #include "token.hpp"
 
 constexpr void check(const bool& to_check, const std::string& error_message) {
