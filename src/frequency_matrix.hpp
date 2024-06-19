@@ -28,14 +28,11 @@ class ChainConstructor;
 
 class FrequencyMatrix : frequency_matrix {
 public:
-    FrequencyMatrix(const std::size_t order);
+    FrequencyMatrix(const std::size_t);
 
-    using frequency_matrix::operator[];
-    using frequency_matrix::at;
+    void increment(const sequence&, const std::size_t&);
 
-    void increment(const sequence& sequence, const std::size_t& next);
-
-    friend void save_chain(const std::filesystem::path&, const ChainConstructor&);
+    friend class ChainConstructor;
 
 private:
     const std::size_t m_order;

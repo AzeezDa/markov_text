@@ -1,10 +1,16 @@
 #include <cassert>
 #include <filesystem>
 #include <iostream>
+#include <fstream>
+#include <string>
 #include "argparse/argparse.hpp"
 #include "chain_constructor.hpp"
 #include "text_generator.hpp"
 #include "token.hpp"
+
+const std::size_t DEFAULT_OUTPUT_TOKEN_COUNT = 100;
+const std::size_t DEFAULT_CHAIN_ORDER = 3;
+const std::string DEFAULT_CHAIN_FILE_NAME = "out";
 
 constexpr void check(const bool& to_check, const std::string& error_message) {
     if (!to_check) {
@@ -14,7 +20,7 @@ constexpr void check(const bool& to_check, const std::string& error_message) {
     }
 }
 
-auto main(int argc, char* argv[]) -> int {
+int main(int argc, char* argv[]) {
     // Set up argparse
     argparse::ArgumentParser program("markov_text", "0.0.1");
     program.add_description("A text generator based on higher-order Markov chains.");
@@ -26,16 +32,16 @@ auto main(int argc, char* argv[]) -> int {
         .help("Generate text based on given chain file");
 
     program.add_argument("-O")
-        .default_value<std::size_t>(3)
+        .default_value(DEFAULT_CHAIN_ORDER)
         .scan<'i', std::size_t>()
         .help("The order of the chain to be constructed");
 
     program.add_argument("-o")
-        .default_value(std::string{"out"})
+        .default_value(DEFAULT_CHAIN_FILE_NAME)
         .help("The Name of the constructed chain files");
 
     program.add_argument("-s")
-        .default_value<std::size_t>(100)
+        .default_value(DEFAULT_OUTPUT_TOKEN_COUNT)
         .scan<'i', std::size_t>()
         .help("The number of tokens to generate");
 
@@ -60,9 +66,9 @@ auto main(int argc, char* argv[]) -> int {
 
         std::clog << "Constructing..." << std::endl;
         ChainConstructor chain(order);
-        chain.construct<>(input);
+        chain.construct(input);
         std::clog << "Saving..." << std::endl;
-        save_chain(output_file_path, chain);
+        chain.save_chain(output_file_path);
         std::clog << "Done!" << std::endl;
     }
 
@@ -71,7 +77,6 @@ auto main(int argc, char* argv[]) -> int {
         const auto chain_file_path = program.get<std::string>("-g");
         const auto token_count = program.get<std::size_t>("-s");
 
-        TextGenerator text_generator(chain_file_path);
-        text_generator.generate<>(token_count);
+        generate(token_count, chain_file_path, std::cout);
     }
 }

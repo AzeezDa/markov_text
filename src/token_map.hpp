@@ -1,8 +1,8 @@
 #ifndef H_TOKEN_MAP
 #define H_TOKEN_MAP
 
-#include <string>
 #include <filesystem>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -16,7 +16,7 @@ public:
 
     std::size_t try_insert(std::string&& token);
 
-    friend void save_chain(const std::filesystem::path&, const ChainConstructor&);
+    friend class ChainConstructor;
 
 private:
     std::size_t m_current_index;
