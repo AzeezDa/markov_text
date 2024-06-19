@@ -42,7 +42,7 @@ void ChainConstructor::save_chain(std::ostream& token_index,
         return *x < *y;
     });
 
-    // Byte pointers to file. When the return value of binary_write is added
+    // Byte pointers to files. When the return value of binary_write is added
     // to them then it means the pointer is moved forward
     std::size_t current_token_index = 0;
     std::size_t map_byte_index = 0;

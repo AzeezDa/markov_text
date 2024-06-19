@@ -1,7 +1,7 @@
 #include "token.hpp"
 
 void ASCIITokenizer::operator()(std::istream& in, const push_function& push) {
-    // Read char by char and tokenise according to some rules. I chose the once
+    // Read char by char and tokenise according to some rules. I chose the ones
     // below just because they gave good enough (but not perfect) results for
     // English texts
     char ch;
