@@ -8,14 +8,12 @@
 #include <string>
 
 using push_function = std::function<void(std::string&)>;
-using tokenizer_function = std::function<void(std::istream&, const push_function&)>;
-using token_print_function = std::function<void(std::ostream&, const std::string&, char)>;
 
 template <class T>
 concept TokenizerLike = std::is_invocable_r_v<void, T, std::istream&, const push_function&>;
 
 template <class T>
-concept TokenPrinterLike = std::is_invocable_r_v<void, T, std::ostream&, const std::string&, char>;
+concept TokenPrinterLike = std::is_invocable_r_v<void, T, std::ostream&, const std::string&, unsigned char>;
 
 class ASCIITokenizer {
 public:
@@ -24,7 +22,7 @@ public:
 
 class ASCIITokenPrinter {
 public:
-    void operator()(std::ostream& out, const std::string& token, char previous);
+    void operator()(std::ostream& out, const std::string& token, unsigned char previous);
 };
 
 #endif  // H_TOKEN

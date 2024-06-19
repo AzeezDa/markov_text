@@ -111,7 +111,7 @@ std::size_t sample_next_token(const sequence& current_sequence,
         map.push_back(token_index);
 
         const auto weight = binary_read<std::size_t>(frequency);
-        weights.push_back(weight);
+        weights.push_back(static_cast<double>(weight));
     }
 
     // Sample next token index
@@ -158,7 +158,7 @@ void generate(const std::size_t output_token_count,
 
     // Write random sequence
     sequence current_sequence;
-    char previous = ' ';
+    unsigned char previous = ' ';
     std::size_t current_token = 0;
 
     sequence_index.seekg(details::from_row_index(random_sequence_index, order));

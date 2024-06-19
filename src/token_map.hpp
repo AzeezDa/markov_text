@@ -8,11 +8,11 @@
 
 class ChainConstructor;
 
-class TokenMap : std::unordered_map<std::string, int> {
+class TokenMap : std::unordered_map<std::string, std::size_t> {
 public:
     TokenMap();
 
-    using std::unordered_map<std::string, int>::operator[];
+    using std::unordered_map<std::string, std::size_t>::operator[];
 
     std::size_t try_insert(std::string&& token);
 

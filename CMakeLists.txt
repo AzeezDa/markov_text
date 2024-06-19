@@ -29,7 +29,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATC
     target_compile_options(${debug} PUBLIC -g)
 endif()
 
-find_program(CLANG_TIDY_EXE NAMES "clang-tidy" REQUIRED)
+find_program(CLANG_TIDY_EXE NAMES "clang-tidy")
 if (CLANG_TIDY_EXE)
     message("Using clang-tidy")
     set(CLANG_TIDY_COMMAND "${CLANG_TIDY_EXE}" "--format-style=file" "-checks=-*,readability-*,modernize-*,bugprone-*,performance-*,misc-*")

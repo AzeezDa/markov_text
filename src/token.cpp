@@ -4,7 +4,7 @@ void ASCIITokenizer::operator()(std::istream& in, const push_function& push) {
     // Read char by char and tokenise according to some rules. I chose the ones
     // below just because they gave good enough (but not perfect) results for
     // English texts
-    char ch;
+    unsigned char ch;
     std::string current;
     while (!in.eof()) {
         in >> std::noskipws >> ch;
@@ -28,7 +28,7 @@ void ASCIITokenizer::operator()(std::istream& in, const push_function& push) {
     }
 }
 
-void ASCIITokenPrinter::operator()(std::ostream& out, const std::string& token, char previous) {
+void ASCIITokenPrinter::operator()(std::ostream& out, const std::string& token, unsigned char previous) {
     // Printing out by following English rules for spacing before and after punctuations
     // It is not perfect but works good enough
     if (((std::ispunct(token[0]) == 0) || token[0] == '$' || token[0] == '(' || token[0] == '&') && previous != '(') {
