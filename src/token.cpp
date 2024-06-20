@@ -6,9 +6,7 @@ void ASCIITokenizer::operator()(std::istream& in, const push_function& push) {
     // English texts
     unsigned char ch;
     std::string current;
-    while (!in.eof()) {
-        in >> std::noskipws >> ch;
-
+    while (in >> std::noskipws >> ch) {
         const bool token_empty = current.empty();
 
         if (((std::isspace(ch) != 0) || (std::isprint(ch) == 0)) && !token_empty) {
@@ -25,6 +23,10 @@ void ASCIITokenizer::operator()(std::istream& in, const push_function& push) {
                 push(current);
             }
         }
+    }
+
+    if (!current.empty()) {
+        push(current);
     }
 }
 
