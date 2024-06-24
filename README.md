@@ -6,7 +6,7 @@
 3. After (2) finishes, run `cmake --build build`
 4. Everything should be done now!
 
-## Running (GNU/Linux-based)
+## Running
 Write `./build/markov_text -h` for help.
 
 An example usage is given below, where first the construction command is done:
@@ -21,7 +21,12 @@ Then to generate text, run:
 ```bash
 ./build/markov_text -g out -s 100
 ```
-which will generate `100` tokens based on the chain that is stored in the files starting with `out`. Note that the value `-s 100` (generate `100` tokens) is the default value and can be omitted. Thus, calling `./build/markov_text -g out` is equivalent to the command above.
+which will generate at most `100` tokens based on the chain that is stored in the files starting with `out`. Note that the value `-s 100` (generate at most `100` tokens) is the default value and can be omitted. Thus, calling `./build/markov_text -g out` is equivalent to the command above.
+
+### Notes
+
+1. It is undefined behaviour if the input file has fewer tokens than the order of the constructed chain
+2. The reason for the generation of "at most" `N` tokens is that if the Markov Chain has no next state then the text generation process ends. This can happen when the current sequence of tokens is a unique sequence that appears at the end of the input text file. This can be produced be creating a file when `K` unique tokens then generating `N` < `K` tokens. In this case, at most `K` tokens will be produced.
 
 ## Contributions
 Contributions and feedback are more than welcome!
