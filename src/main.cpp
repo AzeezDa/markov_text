@@ -1,11 +1,11 @@
 #include <cassert>
 #include <filesystem>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <string>
 #include "argparse/argparse.hpp"
-#include "chain_constructor.hpp"
-#include "text_generator.hpp"
+#include "chain.hpp"
+#include "generator.hpp"
 #include "token.hpp"
 
 const std::size_t DEFAULT_OUTPUT_TOKEN_COUNT = 100;
@@ -60,23 +60,28 @@ int main(int argc, char* argv[]) {
         check(order > 0, "Order must be a positive integer");
 
         const auto input_file_path = program.get<std::string>("-c");
+        check(std::filesystem::exists(input_file_path), "Input file does not exist!");
         const auto output_file_path = program.get<std::string>("-o");
 
         std::ifstream input(input_file_path);
 
         std::clog << "Constructing..." << std::endl;
-        ChainConstructor chain(order);
+        Chain chain(order);
         chain.construct(input);
         std::clog << "Saving..." << std::endl;
-        chain.save_chain(output_file_path);
-        std::clog << "Done!" << std::endl;
+        chain.save(output_file_path);
+        std::clog << "Done! Finishing up..." << std::endl;
     }
 
     // Generate text... Yes it is possible to construct and generate in the same command
     if (program.is_used("-g")) {
         const auto chain_file_path = program.get<std::string>("-g");
         const auto token_count = program.get<std::size_t>("-s");
+        check(std::filesystem::exists(chain_file_path + FILE_EXTENSION_TOKEN_TABLE), "Token Table file does not exist!");
+        check(std::filesystem::exists(chain_file_path + FILE_EXTENSION_TOKEN_MAP), "Token Map file does not exist!");
+        check(std::filesystem::exists(chain_file_path + FILE_EXTENSION_SEQUENCE_MAP), "Sequence Map file does not exist!");
+        check(std::filesystem::exists(chain_file_path + FILE_EXTENSION_FREQUENCY_TABLE), "Frequency Table file does not exist!");
 
-        generate(token_count, chain_file_path, std::cout);
+        TextGenerator().generate(chain_file_path, std::cout, token_count);
     }
 }

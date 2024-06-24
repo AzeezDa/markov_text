@@ -2,27 +2,30 @@
 #define H_TOKEN
 
 #include <concepts>
-#include <functional>
 #include <istream>
 #include <ostream>
 #include <string>
 
-using push_function = std::function<void(std::string&)>;
+template <class T>
+concept TokenizerLike = std::is_invocable_r_v<std::string, T, std::istream&>;
 
 template <class T>
-concept TokenizerLike = std::is_invocable_r_v<void, T, std::istream&, const push_function&>;
+concept PrinterLike = std::is_invocable_r_v<void, T, std::ostream&, const std::string&>;
 
-template <class T>
-concept TokenPrinterLike = std::is_invocable_r_v<void, T, std::ostream&, const std::string&, unsigned char>;
-
-class ASCIITokenizer {
+class DefaultTokenizer {
 public:
-    void operator()(std::istream& in, const push_function& push);
+    std::string operator()(std::istream& in) const {
+        std::string output;
+        in >> output;
+        return output;
+    }
 };
 
-class ASCIITokenPrinter {
+class DefaultPrinter {
 public:
-    void operator()(std::ostream& out, const std::string& token, unsigned char previous);
+    void operator()(std::ostream& out, const std::string& token) const {
+        out << token << ' ';
+    }
 };
 
 #endif  // H_TOKEN

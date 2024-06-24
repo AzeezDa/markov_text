@@ -1,25 +1,38 @@
 #ifndef H_TOKEN_MAP
 #define H_TOKEN_MAP
 
-#include <filesystem>
 #include <string>
 #include <unordered_map>
-#include <vector>
+#include "sequence.hpp"
 
-class ChainConstructor;
-
-class TokenMap : std::unordered_map<std::string, std::size_t> {
+class TokenMap {
 public:
-    TokenMap();
+    TokenMap() : m_current_index(0) {}
 
-    using std::unordered_map<std::string, std::size_t>::operator[];
+    std::size_t try_insert(const std::string& token) {
+        const auto [value, inserted] = m_map.insert({token, m_current_index});
+        if (inserted) {
+            m_inverse_map.push_back(token);
+            m_current_index += 1;
+        }
+        return value->second;  // second is value of key-value pair
+    }
 
-    std::size_t try_insert(std::string&& token);
+    std::size_t get_index(const std::string& token) const {
+        return m_map.at(token);
+    }
 
-    friend class ChainConstructor;
+    const std::string& get_token(const std::size_t index) const {
+        return m_inverse_map[index];
+    }
+
+    std::size_t size() const {
+        return m_current_index;
+    }
 
 private:
     std::size_t m_current_index;
+    std::unordered_map<std::string, std::size_t> m_map;
     std::vector<std::string> m_inverse_map;
 };
 
